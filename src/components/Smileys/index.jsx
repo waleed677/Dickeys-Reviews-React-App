@@ -14,7 +14,6 @@ import {
 const feedbackText = ["VERY POOR", "POOR","HAPPY", "GREAT", "EXCELLENT"];
 
 const Smileys = (props) => {
-  console.log("calling smiley", props);
   const [smiley, setSmiley] = useState("");
   const [feedback, setFeedback] = useState("");
 
