@@ -1,0 +1,6 @@
+export {default as Excellent } from './smileys/5.png'
+export {default as Great } from './smileys/4.png'
+export {default as Happy } from './smileys/3.png'
+export {default as Poor } from './smileys/2.png'
+export {default as VeryPoor } from './smileys/1.png'
+export {default as Cool } from './smileys/6.png'

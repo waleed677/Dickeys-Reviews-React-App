@@ -2,50 +2,67 @@ import React, { useEffect, useState } from "react";
 
 // Import Smileys
 
-import excellent from "../../../public/assets/images/smileys/5.png";
-import great from "../../../public/assets/images/smileys/4.png";
-import happy from "../../../public/assets/images/smileys/3.png";
-import poor from "../../../public/assets/images/smileys/2.png";
-import vpoor from "../../../public/assets/images/smileys/1.png";
-import start from "../../../public/assets/images/smileys/6.png";
+import {
+  Excellent,
+  Great,
+  Happy,
+  Poor,
+  VeryPoor,
+  Cool,
+} from "../../assets/imageIndex";
+
+const feedbackText = ["VERY POOR", "POOR","HAPPY", "GREAT", "EXCELLENT"];
 
 const Smileys = (props) => {
-    console.log(props)
-  const [smiley, setSmiley] = useState();
-
+  console.log("calling smiley", props);
+  const [smiley, setSmiley] = useState("");
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     switch (props.stars) {
-        case 5:
-          setSmiley(excellent);
-          break;
-    
-        case 4:
-          setSmiley(great);
-          break;
-    
-        case 3:
-          setSmiley(happy);
-          break;
-    
-        case 2:
-          setSmiley(poor);
-          break;
-    
-        case 1:
-          setSmiley(vpoor);
-          break;
-    
-        default:
-            setSmiley(start);
-          break;
-      }
-  }, [props.stars])
-  
+      case 5:
+        setSmiley(Excellent);
+        setFeedback(feedbackText[4]);
+        break;
+
+      case 4:
+        setSmiley(Great);
+        setFeedback(feedbackText[3]);
+        break;
+
+      case 3:
+        setSmiley(Happy);
+        setFeedback(feedbackText[2]);
+        break;
+
+      case 2:
+        setSmiley(Poor);
+        setFeedback(feedbackText[1]);
+        break;
+
+      case 1:
+        setSmiley(VeryPoor);
+        setFeedback(feedbackText[0]);
+        break;
+
+      default:
+        setSmiley(Cool);
+        break;
+    }
+  }, [props.stars]);
+
   return (
+    <>
+    <div className="flex flex-col">
     <div className="mx-auto text-center">
       <img src={smiley} />
     </div>
+    <div className="mt-5">
+      <p className="text-2xl text-center">{feedback}</p>
+    </div>
+    </div>
+    
+    </>
   );
 };
 
