@@ -15,3 +15,15 @@
 .star-outline-color {
   color: #FBE3E2;
 }
+
+.customRadio{
+  background-color: #EF372B !important;
+}
+
+input[type="radio"]:checked {
+  background-color: #EF372B
+}
+
+.bg-red-custom {
+  background-color: #EF372B;
+}
