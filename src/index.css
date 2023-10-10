@@ -11,3 +11,7 @@
 .header-bg {
   background-image: url('/assets/images/header-bg.png');
 }
+
+.star-outline-color {
+  color: #FBE3E2;
+}
