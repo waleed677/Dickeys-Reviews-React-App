@@ -1,18 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ThankYou from "../ThankYou";
 import { Questionaires } from "../../data/questionaire";
+import emailjs from "@emailjs/browser";
 
 const Questionaire = () => {
   const [tabs, setTabs] = useState(0);
   const [showThankYou, setshowThankYou] = useState(false);
 
-  const handleNextTab = () => {
-    tabs == 3
-      ? setshowThankYou(true)
+  const [selectedAnswer, setSelectedAnswer] = useState({});
+
+  const handleNextTab = (e) => {
+    e.preventDefault();
+    tabs == Questionaires.length - 1
+      ? sendEmail()
       : tabs < Questionaires.length - 1
       ? setTabs(tabs + 1)
       : "";
   };
+
+  const handleAnswerChange = (event) => {
+    setSelectedAnswer({
+      ...selectedAnswer,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const sendEmail = () => {
+    var emailParams = {
+      to_email: "Pigdreamsstar@gmail.com",
+      from_name: "DICKEYS BARBEQUE PIT",
+    };
+
+    Questionaires.forEach((question, index) => {
+      (emailParams[`Question${index + 1}`] = question.question),
+        (emailParams[`Answer${index + 1}`] =
+          selectedAnswer[question.question] );
+    });
+
+
+    emailjs
+      .send(
+        "service_lzx7guf",
+        "template_1n0k6br",
+        emailParams,
+        "x3lGtSy8W8zVR-YUg"
+      )
+      .then(
+        (result) => {
+          setshowThankYou(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+
 
   return (
     <>
@@ -23,15 +66,17 @@ const Questionaire = () => {
               {`${tabs + 1}. ${Questionaires[tabs].question}`}
             </p>
           </div>
-          {Questionaires[tabs].options.map((option) => (
-            <div className="flex flex-col">
+
+          {Questionaires[tabs].options.map((option, index) => (
+            <div className="flex flex-col" key={index}>
               <div>
                 <label className="inline-flex items-center ml-3 mt-3">
                   <input
                     type="radio"
                     className=" h-4 w-4 text-green-500 border-green-500 "
-                    name="radio-colors"
-                    value="Great"
+                    name={Questionaires[tabs].question}
+                    value={option}
+                    onChange={handleAnswerChange}
                   />
                   <span className="ml-3 mt-0.5 ">{option}</span>
                 </label>
