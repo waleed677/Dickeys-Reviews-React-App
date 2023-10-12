@@ -3,11 +3,8 @@ import { Cool } from "../../assets/imageIndex";
 
 const ThankYou = () => {
   const handleGoogleReview = () => {
-    window.open(
-      "https://www.google.com/maps/place/Dickey's+Barbecue+Pit/@43.6924814,-116.4882128,17z/data=!3m1!4b1!4m6!3m5!1s0x54afad186b65df0d:0xc9d92511304aacff!8m2!3d43.6924776!4d-116.4856379!16s%2Fg%2F11sd_y6w6c?entry=ttu",
-      "_self"
-    );
-  };
+    window.open("https://www.google.com/maps/place/Dickey's+Barbecue+Pit/@43.6924776,-116.4856379,17z/data=!4m8!3m7!1s0x54afad186b65df0d:0xc9d92511304aacff!8m2!3d43.6924776!4d-116.4856379!9m1!1b1!16s%2Fg%2F11sd_y6w6c?entry=ttu", '_self')
+}
 
   return (
     <div className="container mx-auto mt-28">

@@ -19,10 +19,42 @@ const Questionaire = () => {
   };
 
   const handleAnswerChange = (event) => {
-    setSelectedAnswer({
-      ...selectedAnswer,
-      [event.target.name]: event.target.value,
-    });
+    const { name, type } = event.target;
+    if (type == "radio ") {
+      setSelectedAnswer({
+        ...selectedAnswer,
+        [name]: event.target.value,
+      });
+    } else {
+      
+      const checkBoxValue = event.target.defaultValue;
+      const isChecked = event.target.checked;
+
+      const checkboxValue = event.target.defaultValue;
+      const isCheckboxChecked = event.target.checked;
+
+      setSelectedAnswer((prevSelectedAnswer) => {
+        // Copy the previous selected answers
+        const updatedSelectedAnswer = { ...prevSelectedAnswer };
+        
+        // Initialize an array for the checkboxes if it doesn't exist
+        updatedSelectedAnswer[name] = updatedSelectedAnswer[name] || [];
+  
+        if (isCheckboxChecked) {
+          // If the checkbox is checked and the value doesn't already exist, add it to the array
+          if (!updatedSelectedAnswer[name].includes(checkboxValue)) {
+            updatedSelectedAnswer[name].push(checkboxValue);
+          }
+        } else {
+          // If the checkbox is unchecked, remove the value from the array
+          updatedSelectedAnswer[name] = updatedSelectedAnswer[name].filter((value) => value !== checkboxValue);
+        }
+  
+        return updatedSelectedAnswer;
+      });
+
+    }
+
   };
 
   const sendEmail = () => {
@@ -33,10 +65,10 @@ const Questionaire = () => {
 
     Questionaires.forEach((question, index) => {
       (emailParams[`Question${index + 1}`] = question.question),
-        (emailParams[`Answer${index + 1}`] =
-          selectedAnswer[question.question] );
+        (emailParams[`Answer${index + 1}`] = selectedAnswer[question.question]);
     });
 
+     console.log({emailParams})
 
     emailjs
       .send(
@@ -55,8 +87,6 @@ const Questionaire = () => {
       );
   };
 
-
-
   return (
     <>
       {!showThankYou && (
@@ -68,19 +98,35 @@ const Questionaire = () => {
           </div>
 
           {Questionaires[tabs].options.map((option, index) => (
-            <div className="flex flex-col" key={index}>
-              <div>
-                <label className="inline-flex items-center ml-3 mt-3">
-                  <input
-                    type="radio"
-                    className=" h-4 w-4 text-green-500 border-green-500 "
-                    name={Questionaires[tabs].question}
-                    value={option}
-                    onChange={handleAnswerChange}
-                  />
-                  <span className="ml-3 mt-0.5 ">{option}</span>
-                </label>
-              </div>
+            <div className="flex flex-col " key={index}>
+              {Questionaires[tabs].type == "radio" && (
+                <div>
+                  <label className="inline-flex items-center ml-3 mt-3">
+                    <input
+                      type="radio"
+                      className=" h-4 w-4 text-green-500 border-green-500 "
+                      name={Questionaires[tabs].question}
+                      value={option}
+                      onChange={handleAnswerChange}
+                    />
+                    <span className="ml-3 mt-0.5 ">{option}</span>
+                  </label>
+                </div>
+              )}
+              {Questionaires[tabs].type == "checkbox" && (
+                <div>
+                  <label className="inline-flex items-center ml-3 mt-3">
+                    <input
+                      type="checkbox"
+                      className=" h-4 w-4 text-green-500 border-green-500 "
+                      name={Questionaires[tabs].question}
+                      value={option}
+                      onChange={handleAnswerChange}
+                    />
+                    <span className="ml-3 mt-0.5 ">{option}</span>
+                  </label>
+                </div>
+              )}
             </div>
           ))}
 
